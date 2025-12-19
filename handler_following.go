@@ -7,14 +7,9 @@ import (
 	"github.com/rickyjasso/gator/internal/database"
 )
 
-func handlerFollowing(s *state, cmd command) error {
+func handlerFollowing(s *state, cmd command, user database.User) error {
 
-	currentUser, err := s.db.GetUser(context.Background(), s.cfg.CURRENT_USER_NAME)
-	if err != nil {
-		return fmt.Errorf("Error getting the current user: %w", err)
-	}
-
-	following, err := s.db.GetFeedFollowsForUser(context.Background(), currentUser.ID)
+	following, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("Error getting the user's followed feeds: %w", err)
 	}

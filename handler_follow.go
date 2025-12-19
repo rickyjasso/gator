@@ -9,17 +9,12 @@ import (
 	"github.com/rickyjasso/gator/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("Usage: %s <url>\n", cmd.Name)
 	}
 
 	url := cmd.Args[0]
-
-	user, err := s.db.GetUser(context.Background(), s.cfg.CURRENT_USER_NAME)
-	if err != nil {
-		return fmt.Errorf("Error getting user: %w", err)
-	}
 
 	feed, err := s.db.GetFeedByURL(context.Background(), url)
 	if err != nil {
